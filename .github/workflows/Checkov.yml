@@ -46,6 +46,7 @@ jobs:
           sarif_file: results.sarif
 
   Snyk_OSS_security:
+    if: ${{ always() }}
     needs: checkov_scan
     permissions:
       contents: read # for actions/checkout to fetch code
