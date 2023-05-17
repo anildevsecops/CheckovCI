@@ -66,4 +66,26 @@ jobs:
         if: success() || failure()
         with:
           sarif_file: snyk.sarif
-    
+          
+  Burp_Dastardly_DAST_Scan:
+    if: ${{ always() }}
+    needs: Snyk_OSS_security
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      checks: write
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+       - name: Run Dastardly Action Step
+         uses: PortSwigger/dastardly-github-action@main
+         with:
+          target-url: 'https://ginandjuice.shop'
+       - name: Publish Test Report
+         if: always()                                    # Forces this step to always run
+         uses: mikepenz/action-junit-report@v3
+         with:
+          report_paths: '**/dastardly-report.xml'       # You need to update this path if you pass in a different output filename to the Dastardly action
+          require_tests: true
+   
