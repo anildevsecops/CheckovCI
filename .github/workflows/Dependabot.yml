@@ -1,4 +1,4 @@
-name: Open Source Secuirty Scan
+name: Dependabot Report Action
 
 # Controls when the workflow will run
 on:
@@ -26,7 +26,7 @@ jobs:
       - name: Generate dependencies action
         uses: thedave42/generate-dependencies-csv-action@v6
         with:
-          repo-token: ${{ secrets.YOUR_TOKEN }}
+          repo-token: ${{ secrets.PA_TOKEN }}
           repo-names: CheckovCI
 
    
